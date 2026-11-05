@@ -1,0 +1,15 @@
+services:
+  db:
+    image: cockroachdb/cockroach:latest
+    command: start-single-node --insecure
+    environment:
+      COCKROACH_DATABASE: joinly
+    ports:
+      - "26257:26257"
+      - "8081:8080"
+    volumes:
+      - crdb-data:/cockroach/cockroach-data
+      - ./db:/docker-entrypoint-initdb.d
+
+volumes:
+  crdb-data:

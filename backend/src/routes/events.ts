@@ -6,6 +6,49 @@ const router = Router();
 
 const DIFFICULTIES = ["lahko", "srednje", "zahtevno"];
 
+const PAGE_SIZE = 12;
+
+router.get("/", async (req, res) => {
+  const page = Math.max(1, Number(req.query.page) || 1);
+  const offset = (page - 1) * PAGE_SIZE;
+
+  const countResult = await pool.query(
+    "SELECT count(*) AS total FROM events WHERE status = 'published' AND starts_at > now()"
+  );
+  const total = countResult.rows[0].total;
+
+  const result = await pool.query(
+    `SELECT e.id, e.title, e.location_name, e.region, e.starts_at, e.difficulty, e.capacity,
+            c.name AS category_name,
+            (SELECT count(*) FROM participations p
+              WHERE p.event_id = e.id AND p.status = 'registered') AS participant_count
+     FROM events e
+     JOIN categories c ON c.id = e.category_id
+     WHERE e.status = 'published' AND e.starts_at > now()
+     ORDER BY e.starts_at ASC
+     LIMIT $1 OFFSET $2`,
+    [PAGE_SIZE, offset]
+  );
+
+  const events = result.rows.map((e) => ({
+    id: e.id,
+    title: e.title,
+    locationName: e.location_name,
+    region: e.region,
+    startsAt: e.starts_at,
+    difficulty: e.difficulty,
+    categoryName: e.category_name,
+    capacity: req.user ? e.capacity : undefined,
+    participantCount: req.user ? e.participant_count : undefined,
+  }));
+
+  res.json({
+    events,
+    page,
+    totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
+  });
+});
+
 router.post("/", requireAuth, async (req, res) => {
   const { title, description, categoryId, locationName, region, startsAt, endsAt, difficulty, capacity } =
     req.body;

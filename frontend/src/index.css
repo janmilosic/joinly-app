@@ -168,3 +168,58 @@ h1 { font-weight: 800; }
   margin-top: 32px;
 }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.back-link { display: inline-block; margin-bottom: 20px; color: var(--muted); font-weight: 600; }
+.back-link:hover { color: var(--green); }
+
+.detail-layout {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 32px; align-items: start;
+}
+.detail-banner {
+  height: 260px; border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--green), #4ade80);
+  color: var(--white); font-size: 32px; font-weight: 800;
+}
+.detail-tags { display: flex; gap: 8px; margin-top: 20px; }
+.tag-outline { text-transform: capitalize; }
+.description { white-space: pre-line; line-height: 1.6; }
+
+.detail-side {
+  background: var(--white); padding: 24px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.08);
+}
+.detail-side h2 { margin-top: 0; font-size: 20px; }
+.detail-row { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+.detail-icon {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--green-light);
+}
+.detail-label { font-size: 13px; color: var(--muted); }
+.detail-value { font-weight: 700; }
+
+.occupancy { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px; }
+.occupancy-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.progress { height: 10px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--green); }
+.full-label { color: var(--error); font-weight: 800; }
+
+.login-prompt {
+  padding: 20px; border-radius: var(--radius);
+  background: var(--green-light);
+}
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 800px) {
+  .detail-layout { grid-template-columns: 1fr; }
+}
+
+.organizer-actions {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+}
+.organizer-actions .btn { text-align: center; }
+.btn-danger { border-color: var(--error); color: var(--error); }
+.btn-danger:hover { background: #fee2e2; }

@@ -88,4 +88,32 @@ router.delete("/:id/participation", requireAuth, async (req, res) => {
   res.json({ message: "Odjava uspešna." });
 });
 
+router.get("/:id/participants", requireAuth, async (req, res) => {
+  const event = await findEvent(req.params.id as string);
+  if (!event) {
+    res.status(404).json({ error: "Dogodek ne obstaja." });
+    return;
+  }
+  if (event.organizer_id !== req.user!.id) {
+    res.status(403).json({ error: "Seznam prijavljenih vidi samo organizator." });
+    return;
+  }
+
+  const result = await pool.query(
+    `SELECT u.display_name, p.created_at
+     FROM participations p
+     JOIN users u ON u.id = p.user_id
+     WHERE p.event_id = $1 AND p.status = 'registered'
+     ORDER BY p.created_at ASC`,
+    [event.id]
+  );
+
+  res.json(
+    result.rows.map((row) => ({
+      name: row.display_name,
+      registeredAt: row.created_at,
+    }))
+  );
+});
+
 export default router;

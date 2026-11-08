@@ -89,3 +89,31 @@ h1 { font-weight: 800; }
 }
 .muted { color: var(--muted); font-size: 14px; }
 .muted a { color: var(--green); font-weight: 700; }
+
+.form-card {
+  max-width: 720px; margin: 0 auto; padding: 32px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.08);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.form select,
+.form textarea {
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px; font-family: inherit;
+  background: var(--white);
+}
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-light);
+}
+.form textarea { resize: vertical; }
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+}

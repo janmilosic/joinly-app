@@ -4,6 +4,7 @@ import EventsPage from "./pages/EventsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import CreateEventPage from "./pages/CreateEventPage";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/" element={<EventsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/events/new" element={<CreateEventPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

@@ -223,3 +223,4 @@ h1 { font-weight: 800; }
 .organizer-actions .btn { text-align: center; }
 .btn-danger { border-color: var(--error); color: var(--error); }
 .btn-danger:hover { background: #fee2e2; }
+.btn-full { width: 100%; margin-top: 16px; }

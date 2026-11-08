@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth";
 import { readUser } from "./middleware/auth";
 import categoryRoutes from "./routes/categories";
 import eventRoutes from "./routes/events";
+import participationRoutes from "./routes/participations";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use(readUser);
 app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/events", participationRoutes);
 
 app.get("/api/health", async (_req, res) => {
   const result = await pool.query("SELECT now() AS time");

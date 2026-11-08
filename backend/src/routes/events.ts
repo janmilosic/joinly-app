@@ -23,7 +23,7 @@ function validateEvent(body: any): string | null {
   return null;
 }
 
-async function findEvent(id: string) {
+export async function findEvent(id: string) {
   if (!UUID_REGEX.test(id)) return null;
   const result = await pool.query("SELECT * FROM events WHERE id = $1", [id]);
   return result.rows[0] ?? null;
@@ -105,6 +105,11 @@ router.get("/:id", async (req, res) => {
     return;
   }
 
+  const registration = await pool.query(
+    "SELECT 1 FROM participations WHERE event_id = $1 AND user_id = $2 AND status = 'registered'",
+    [e.id, req.user.id]
+  );
+
   res.json({
     ...basic,
     description: e.description,
@@ -113,6 +118,7 @@ router.get("/:id", async (req, res) => {
     capacity: e.capacity,
     participantCount: e.participant_count,
     isOrganizer: e.organizer_id === req.user.id,
+    isRegistered: registration.rows.length > 0,
   });
 });
 

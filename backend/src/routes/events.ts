@@ -5,6 +5,7 @@ import { requireAuth } from "../middleware/auth";
 const router = Router();
 
 const DIFFICULTIES = ["lahko", "srednje", "zahtevno"];
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const PAGE_SIZE = 12;
 
@@ -46,6 +47,56 @@ router.get("/", async (req, res) => {
     events,
     page,
     totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
+  });
+});
+
+router.get("/:id", async (req, res) => {
+  if (!UUID_REGEX.test(req.params.id)) {
+    res.status(404).json({ error: "Dogodek ne obstaja." });
+    return;
+  }
+
+  const result = await pool.query(
+    `SELECT e.*, c.name AS category_name, u.display_name AS organizer_name,
+            (SELECT count(*) FROM participations p
+              WHERE p.event_id = e.id AND p.status = 'registered') AS participant_count
+     FROM events e
+     JOIN categories c ON c.id = e.category_id
+     JOIN users u ON u.id = e.organizer_id
+     WHERE e.id = $1`,
+    [req.params.id]
+  );
+  const e = result.rows[0];
+
+  if (!e) {
+    res.status(404).json({ error: "Dogodek ne obstaja." });
+    return;
+  }
+
+  const basic = {
+    id: e.id,
+    title: e.title,
+    categoryId: e.category_id,
+    categoryName: e.category_name,
+    startsAt: e.starts_at,
+    endsAt: e.ends_at,
+    locationName: e.location_name,
+    region: e.region,
+  };
+
+  if (!req.user) {
+    res.json(basic);
+    return;
+  }
+
+  res.json({
+    ...basic,
+    description: e.description,
+    difficulty: e.difficulty,
+    organizerName: e.organizer_name,
+    capacity: e.capacity,
+    participantCount: e.participant_count,
+    isOrganizer: e.organizer_id === req.user.id,
   });
 });
 

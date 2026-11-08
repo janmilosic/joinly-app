@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import type { EventDetail } from "../types";
 import { formatDate, formatTime } from "../utils/format";
+import ParticipantsList from "../components/ParticipantsList";
 
 
 function DetailRow({ icon, label, value }: { icon: string; label: string; value: string }) {
@@ -93,6 +94,7 @@ const { id } = useParams();
               <p className="description">{event.description}</p>
             </>
           )}
+          {event.isOrganizer && <ParticipantsList eventId={event.id} />}
         </div>
 
         <aside className="detail-side">

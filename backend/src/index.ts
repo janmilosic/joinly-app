@@ -3,6 +3,8 @@ import cookieParser from "cookie-parser";
 import { pool } from "./db";
 import authRoutes from "./routes/auth";
 import { readUser } from "./middleware/auth";
+import categoryRoutes from "./routes/categories";
+import eventRoutes from "./routes/events";
 
 const app = express();
 app.use(express.json());
@@ -10,6 +12,8 @@ app.use(cookieParser());
 app.use(readUser);
 
 app.use("/api/auth", authRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/events", eventRoutes);
 
 app.get("/api/health", async (_req, res) => {
   const result = await pool.query("SELECT now() AS time");

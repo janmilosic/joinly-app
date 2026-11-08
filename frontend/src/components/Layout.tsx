@@ -17,6 +17,7 @@ export default function Layout() {
           <Link to="/" className="logo">Joinly</Link>
           <nav>
             <NavLink to="/" end>Dogodki</NavLink>
+            {user && <NavLink to="/events/new">Ustvari dogodek</NavLink>}
           </nav>
         </div>
 

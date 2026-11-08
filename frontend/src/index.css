@@ -238,3 +238,50 @@ h1 { font-weight: 800; }
 }
 .participants li:last-child { border-bottom: none; }
 .participant-name { font-weight: 700; }
+
+.header-user { display: flex; align-items: center; gap: 10px; }
+
+.profile-card {
+  display: flex; align-items: center; gap: 28px;
+  padding: 28px 32px;
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.08);
+}
+.profile-card h1 { margin: 0 0 6px; }
+.profile-card p { margin: 2px 0; }
+.avatar-large { width: 80px; height: 80px; font-size: 32px; }
+
+.tabs {
+  display: flex; gap: 8px;
+  margin: 28px 0 20px; border-bottom: 1px solid var(--border);
+}
+.tab {
+  padding: 10px 16px; background: none; border: none;
+  border-bottom: 3px solid transparent;
+  font-family: inherit; font-size: 15px; font-weight: 700;
+  color: var(--muted); cursor: pointer;
+}
+.tab:hover { color: var(--green); }
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+.profile-list { display: flex; flex-direction: column; gap: 14px; }
+.profile-item {
+  display: flex; align-items: center; gap: 20px;
+  padding: 16px 20px;
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.08);
+}
+.date-box {
+  width: 64px; height: 64px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: var(--green-light); color: var(--green-dark);
+  border-radius: 12px; font-weight: 800; font-size: 14px;
+}
+.profile-item-info { flex: 1; }
+.profile-item-info h3 { margin: 0 0 4px; }
+.profile-item-info p { margin: 0; }
+.empty-state .btn { display: inline-block; margin-top: 8px; }
+
+@media (max-width: 700px) {
+  .profile-item { flex-wrap: wrap; }
+}

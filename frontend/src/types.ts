@@ -39,3 +39,20 @@ export interface EventFormValues {
   difficulty: string;
   capacity: string;
 }
+
+export interface ProfileEvent {
+  id: string;
+  title: string;
+  startsAt: string;
+  locationName: string;
+  categoryName: string;
+}
+
+export interface Profile {
+  displayName: string;
+  email: string;
+  createdAt: string;
+  upcoming: ProfileEvent[];
+  history: ProfileEvent[];
+  organized: ProfileEvent[];
+}

@@ -18,6 +18,7 @@ export default function Layout() {
           <nav>
             <NavLink to="/" end>Dogodki</NavLink>
             {user && <NavLink to="/events/new">Ustvari dogodek</NavLink>}
+            {user && <NavLink to="/profile">Moj profil</NavLink>}
           </nav>
         </div>
 
@@ -25,8 +26,10 @@ export default function Layout() {
           <div className="header-right">
             {user ? (
               <>
-                <span className="avatar">{user.displayName.charAt(0).toUpperCase()}</span>
-                <span className="user-name">{user.displayName}</span>
+                <Link to="/profile" className="header-user">
+                  <span className="avatar">{user.displayName.charAt(0).toUpperCase()}</span>
+                  <span className="user-name">{user.displayName}</span>
+                </Link>
                 <button className="btn" onClick={handleLogout}>Odjava</button>
               </>
             ) : (

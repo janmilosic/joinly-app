@@ -26,3 +26,15 @@ export interface EventDetail {
   participantCount?: number;
   isOrganizer?: boolean;
 }
+
+export interface EventFormValues {
+  title: string;
+  description: string;
+  categoryId: string;
+  locationName: string;
+  region: string;
+  startsAt: string;
+  endsAt: string;
+  difficulty: string;
+  capacity: string;
+}

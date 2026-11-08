@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import type { EventDetail } from "../types";
 import { formatDate, formatTime } from "../utils/format";
+
 
 function DetailRow({ icon, label, value }: { icon: string; label: string; value: string }) {
   return (
@@ -17,10 +18,18 @@ function DetailRow({ icon, label, value }: { icon: string; label: string; value:
 }
 
 export default function EventDetailPage() {
-  const { id } = useParams();
+const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [notFound, setNotFound] = useState(false);
+
+  async function handleDelete() {
+    if (!window.confirm("Ali res želite izbrisati ta dogodek?")) return;
+
+    const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
+    if (res.ok) navigate("/");
+  }
 
   useEffect(() => {
     fetch(`/api/events/${id}`).then(async (res) => {
@@ -96,7 +105,12 @@ export default function EventDetailPage() {
               )}
             </div>
           )}
-
+          {event.isOrganizer && (
+            <div className="organizer-actions">
+                <Link to={`/events/${event.id}/edit`} className="btn btn-primary">Uredi dogodek</Link>
+                <button className="btn btn-danger" onClick={handleDelete}>Izbriši dogodek</button>
+            </div>
+          )}  
         </aside>
       </div>
     </div>

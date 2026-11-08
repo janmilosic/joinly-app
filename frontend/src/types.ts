@@ -25,6 +25,7 @@ export interface EventDetail {
   capacity?: number;
   participantCount?: number;
   isOrganizer?: boolean;
+  isRegistered?: boolean;
 }
 
 export interface EventFormValues {

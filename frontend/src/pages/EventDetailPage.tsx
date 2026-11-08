@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import type { EventDetail } from "../types";
 import { formatDate, formatTime } from "../utils/format";
+import ParticipantsList from "../components/ParticipantsList";
 
 
 function DetailRow({ icon, label, value }: { icon: string; label: string; value: string }) {
@@ -23,12 +24,26 @@ const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState<EventDetail | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
+  const [actionError, setActionError] = useState("");
 
   async function handleDelete() {
     if (!window.confirm("Ali res želite izbrisati ta dogodek?")) return;
 
     const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
     if (res.ok) navigate("/");
+  }
+
+  async function handleParticipation(method: "POST" | "DELETE") {
+    setActionError("");
+    const res = await fetch(`/api/events/${id}/participation`, { method });
+    const data = await res.json();
+
+    if (!res.ok) {
+      setActionError(data.error);
+      return;
+    }
+    setReloadKey((key) => key + 1);
   }
 
   useEffect(() => {
@@ -39,7 +54,7 @@ const { id } = useParams();
       }
       setEvent(await res.json());
     });
-  }, [id, user]);
+  }, [id, user, reloadKey]);
 
   if (notFound) return <div className="empty-state">Dogodek ne obstaja.</div>;
   if (!event) return <p className="muted">Nalagam ...</p>;
@@ -79,6 +94,7 @@ const { id } = useParams();
               <p className="description">{event.description}</p>
             </>
           )}
+          {event.isOrganizer && <ParticipantsList eventId={event.id} />}
         </div>
 
         <aside className="detail-side">
@@ -104,6 +120,24 @@ const { id } = useParams();
                 <p className="muted">Prosta mesta: {freeSpots}</p>
               )}
             </div>
+          )}
+          {!isGuest && !event.isOrganizer && user?.role !== "moderator" && (
+            <>
+              {event.isRegistered ? (
+                <button className="btn btn-full" onClick={() => handleParticipation("DELETE")}>
+                  Odjavi se
+                </button>
+              ) : isFull ? (
+                <button className="btn btn-primary btn-full" disabled>
+                  Dogodek je poln
+                </button>
+              ) : (
+                <button className="btn btn-primary btn-full" onClick={() => handleParticipation("POST")}>
+                  Prijavi se na dogodek
+                </button>
+              )}
+              {actionError && <p className="error">{actionError}</p>}
+            </>
           )}
           {event.isOrganizer && (
             <div className="organizer-actions">

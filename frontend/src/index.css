@@ -223,3 +223,18 @@ h1 { font-weight: 800; }
 .organizer-actions .btn { text-align: center; }
 .btn-danger { border-color: var(--error); color: var(--error); }
 .btn-danger:hover { background: #fee2e2; }
+.btn-full { width: 100%; margin-top: 16px; }
+
+.participants {
+  margin-top: 32px; padding: 24px;
+  background: var(--white); border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(22, 163, 74, 0.08);
+}
+.participants h2 { margin-top: 0; font-size: 20px; }
+.participants ul { list-style: none; padding: 0; margin: 0; }
+.participants li {
+  display: flex; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.participants li:last-child { border-bottom: none; }
+.participant-name { font-weight: 700; }

@@ -27,12 +27,24 @@ h1 { font-weight: 800; }
 
 .header {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 16px 32px;
+  padding: 14px 32px;
   background: var(--white);
   border-bottom: 1px solid var(--border);
 }
-.header nav { display: flex; gap: 24px; font-weight: 600; }
-.header nav a:hover { color: var(--green); }
+.header-left { display: flex; align-items: center; gap: 48px; }
+.header-left nav { display: flex; gap: 28px; font-weight: 600; }
+.header-left nav a { padding-bottom: 4px; border-bottom: 2px solid transparent; }
+.header-left nav a:hover { color: var(--green); }
+.header-left nav a.active { color: var(--green); border-bottom-color: var(--green); }
+
+.header-right { display: flex; align-items: center; gap: 12px; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--green-light); color: var(--green-dark); font-weight: 800;
+}
+.user-name { font-weight: 600; }
+
 .logo { font-weight: 800; font-size: 24px; color: var(--green); }
 
 .container { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }

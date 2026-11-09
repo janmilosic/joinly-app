@@ -24,7 +24,60 @@ Joinly je spletna aplikacija za iskanje, organizacijo in prijavo na športne in 
 
 - **frontend/** – spletna aplikacija
 - **backend/** – strežniški del aplikacije
+- **db/** – schema podatkovne baze
 - **docs/** – dokumentacija projekta
+
+## Lokalni zagon
+
+### Kaj potrebujemo pred zagonom
+- Node.js
+- Docker Desktop
+- Git
+
+### 1. Kloniranje repozitorija
+
+```bash
+git clone https://github.com/janmilosic/joinly-app.git
+cd joinly-app
+```
+
+### 2. Nastavitve okolja
+
+```bash
+cp .env.example .env
+```
+
+### 3. Zagon podatkovne baze
+
+```bash
+docker compose up -d
+```
+
+### 4. Zagon backenda
+```bash
+
+cd backend
+npm install
+npm run dev
+```
+Backend je dostopen na http://localhost:3000
+
+### 5. Zagon frontenda
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Aplikacija je dostopna na http://localhost:5173
+
+
+### Ponastavitev podatkovne baze
+
+```bash
+docker compose down -v
+docker compose up -d
+```
 
 ## Avtor
 
